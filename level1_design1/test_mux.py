@@ -11,7 +11,7 @@ class TestFail(Exception):
 async def test_mux(dut):
     """Test for mux2"""
 
-    cocotb.log.info('##### CTB: Develop your test here ########')
+    # cocotb.log.info('##### CTB: Develop your test here ########')
     
     inputs={}
     fail_count=0
