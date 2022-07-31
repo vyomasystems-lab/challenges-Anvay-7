@@ -14,6 +14,7 @@ from cocotb.triggers import RisingEdge, FallingEdge
 seq_states={"000":"IDLE","001":"SEQ_1","010":"SEQ_10","011":"SEQ_101","100":"SEQ_1011"}
 
 def get_state(pattern):
+    """Get the expected state value"""
     if pattern[-4:]=="1011":
         state="SEQ_1011"
     elif pattern[-3:] == "101":
