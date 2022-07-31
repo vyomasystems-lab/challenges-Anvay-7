@@ -56,6 +56,7 @@ async def test_seq_bug1(dut):
             output=0
 
         # print(dut.current_state.value)
-        dut._log.info(f'Input bit = {dut.inp_bit.value} | DUT = {dut.seq_seen.value} | Current State = {dut.current_state.value} ({seq_states[str(dut.current_state.value)]})')
+        current_state=str(dut.current_state.value)
+        dut._log.info(f'Input bit = {dut.inp_bit.value} | DUT = {dut.seq_seen.value} | Current State = {current_state} ({seq_states[current_state]})')
 
-        assert output==int(dut.seq_seen.value),'\33[31m'+f"Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[str(dut.current_state.value)]}"+'\x1b[0m'
+        assert (output==int(dut.seq_seen.value)) & (expected_state==seq_states[current_state]) ,'\33[31m'+f"Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[current_state]}"+'\x1b[0m'
