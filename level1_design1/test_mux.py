@@ -33,7 +33,7 @@ async def test_mux(dut):
             assert dut.out.value == inputs[sel_value]
         except AssertionError as e:
             fail_count+=1
-            fail_msg='\33[31m'+f"Test failed with sel = {sel_value}"+'\x1b[0m'
+            fail_msg='\33[31m'+f"Test failed with sel = {sel_value} | Expected output = {inputs[sel_value]} DUT value = {int(dut.out.value)}"+'\x1b[0m'
             failed_cases.append(fail_msg)
             print("\t",fail_msg)
 
