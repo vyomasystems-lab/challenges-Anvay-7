@@ -1,6 +1,6 @@
 ## Mux Design Verification 
 <br />
-<img src="./images/mux_error.PNG" alt="Mux error" />
+<img src="./images/gitpod.PNG" alt="gitpod" />
 <br />
 
 ## Verification Environment
