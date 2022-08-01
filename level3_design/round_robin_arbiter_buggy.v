@@ -1,6 +1,6 @@
 //Rotate -> Priority -> Rotate
 //author: dongjun_luo@hotmail.com
-module round_robin_arbiter (
+module round_robin_arbiter_buggy (
 	rst_an,
 	clk,
 	req,
@@ -54,7 +54,7 @@ end
 always @ (posedge clk or negedge rst_an)
 begin
 	if (!rst_an)	grant[3:0] <= 4'b0;
-	else		grant[3:0] <= grant_comb[3:0] & ~grant[3:0];
+	else		grant[3:0] <= grant_comb[3:0]; // BUG inserted here. It should have been ANDed with ~grant[3:0]
 end
  
 // update the rotate pointer

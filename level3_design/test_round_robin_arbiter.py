@@ -7,10 +7,7 @@ from copy import deepcopy
 from collections import deque
 req_lst=["0000","0001","0001","1001","1101","0001","0000"]
 
-
 device_lut={None:"0000",0:"0001",1:"0010",2:"0100",3:"1000"}
-
-
 
 def get_grant(req,old_grant,dev):
     temp_dev=deepcopy(dev)
@@ -33,7 +30,7 @@ def get_grant(req,old_grant,dev):
 
 
 @cocotb.test()
-async def custom_input(dut):
+async def repeat_grant_bug(dut):
     clock = Clock(dut.clk, 10, units="us")  
     cocotb.start_soon(clock.start()) 
 
@@ -49,4 +46,7 @@ async def custom_input(dut):
         dut.req.value=int(req,2)
         await FallingEdge(dut.clk)
         expected_grant=get_grant(req,expected_grant,dev)
-        print(dut.grant.value,'  ',expected_grant)
+        # print(dut.grant.value,'  ',expected_grant)
+        dut._log.info(f'Request = {req}, DUT output = {dut.grant.value}, Expected output = {expected_grant}')
+
+        assert str(dut.grant.value) == expected_grant, '\33[31m'+f"DUT output: {dut.grant.value} != Expected output: {expected_grant} for request = {req}"+'\x1b[0m'
