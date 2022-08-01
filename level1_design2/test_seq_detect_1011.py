@@ -60,7 +60,45 @@ async def custom_input1(dut):
         current_state=str(dut.current_state.value)
         dut._log.info(f'Input bit = {dut.inp_bit.value} | DUT = {dut.seq_seen.value} | Current State = {current_state} ({seq_states[current_state]})')
 
-        assert (output==int(dut.seq_seen.value)) & (expected_state==seq_states[current_state]) ,'\33[31m'+f"Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[current_state]}"+'\x1b[0m'
+        assert (output==int(dut.seq_seen.value)) & (expected_state==seq_states[current_state]) ,'\33[31m'+f"Input bit = {dut.inp_bit.value}, Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[current_state]}"+'\x1b[0m'
+
+
+@cocotb.test()
+async def custom_input2(dut):
+    """Test for seq detection """
+
+    clock = Clock(dut.clk, 10, units="us")  # Create a 10us period clock on port clk
+    cocotb.start_soon(clock.start())        # Start the clock
+
+    input_pattern="10101010"
+    temp_seq=""
+    seq="1011"
+    # reset
+    dut.reset.value = 1
+    await FallingEdge(dut.clk)  
+    dut.reset.value = 0
+    # dut.inp_bit.value = 0 
+    await FallingEdge(dut.clk)
+    dut._log.info(f'Input bit = {dut.inp_bit.value} | DUT = {dut.seq_seen.value} | Current State = {dut.current_state.value} ({seq_states[str(dut.current_state.value)]})')
+    # cocotb.log.info('#### CTB: Develop your test here! ######')
+    for bit in input_pattern:
+        temp_seq+=bit
+        expected_state = get_state(temp_seq)
+        dut.inp_bit.value = int(bit)
+        await FallingEdge(dut.clk)
+        if temp_seq.find(seq)>-1:
+            output=1
+            temp_seq=""
+        else:
+            output=0
+
+        # print(dut.current_state.value)
+        current_state=str(dut.current_state.value)
+        dut._log.info(f'Input bit = {dut.inp_bit.value} | DUT = {dut.seq_seen.value} | Current State = {current_state} ({seq_states[current_state]})')
+
+        assert (output==int(dut.seq_seen.value)) & (expected_state==seq_states[current_state]) ,'\33[31m'+f"Input bit = {dut.inp_bit.value}, Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[current_state]}"+'\x1b[0m'
+
+
 
 @cocotb.test()
 async def random_input(dut):
@@ -97,4 +135,4 @@ async def random_input(dut):
         current_state=str(dut.current_state.value)
         dut._log.info(f'Input bit = {dut.inp_bit.value} | DUT = {dut.seq_seen.value} | Current State = {current_state} ({seq_states[current_state]})')
 
-        assert (output==int(dut.seq_seen.value)) & (expected_state==seq_states[current_state]) ,'\33[31m'+f"Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[current_state]}"+'\x1b[0m'
+        assert (output==int(dut.seq_seen.value)) & (expected_state==seq_states[current_state]) ,'\33[31m'+f"Input bit = {dut.inp_bit.value}, Expected DUT output = {output}, DUT value = {dut.seq_seen.value} | Expected DUT state = {expected_state}  DUT state = {seq_states[current_state]}"+'\x1b[0m'
