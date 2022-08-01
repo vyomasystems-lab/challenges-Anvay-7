@@ -75,4 +75,4 @@ Here:
 The same inputs are stored in a dictionary with the select line value as the key. At the end the DUT value and dictionary value for the same select line value are compared to check for bugs.
 
 ## Is the verification complete?
-The test is run multiple times. As the inputs are random in nature and we check for all the possible select line values in a single test, after running the test multiple times, we are able to capture all the possible bugs present in the design.
+The test is run multiple times. As the inputs are random in nature and we check for all the possible select line values in a single test, after running the test multiple times, we are able to capture all the possible bugs present in the design. Hence, we can say that the verification is complete!
